@@ -1,0 +1,329 @@
+<mujoco model="Strandbeest_AllLegs">
+
+  <compiler angle="radian" inertiafromgeom="true" autolimits="true"/>
+
+  <option gravity="0 0 -9.81"
+          timestep="0.0005"
+          integrator="implicitfast"
+          iterations="800"
+          solver="Newton"
+          tolerance="1e-12"
+          noslip_iterations="10"
+          noslip_tolerance="1e-10"/>
+
+  <visual>
+    <rgba haze="0.15 0.25 0.35 1"/>
+  </visual>
+
+  <default>
+    <joint damping="0.5" armature="0.005"/>
+    <geom contype="0" conaffinity="0" friction="0.8 0.1 0.1" rgba="0.5 0.5 0.5 1" density="500"/>
+  </default>
+
+  <asset>
+    <material name="col_2F4858" rgba="0.184 0.282 0.345 1"/>
+    <material name="orange"    rgba="1.0 0.639 0.098 1"/>
+  </asset>
+
+  <worldbody>
+    <body name="crossbar" pos="0 0 0.9">
+      <site name="base_leg1_site" pos="-0.38 -0.30 0" size="0.005"/>
+      <site name="base_leg2_site" pos="-0.38 -0.18 0" size="0.005"/>
+      <site name="base_leg3_site" pos="-0.38 -0.06 0" size="0.005"/>
+      <site name="base_leg4_site" pos="-0.38  0.06 0" size="0.005"/>
+      <site name="base_leg5_site" pos="-0.38  0.18 0" size="0.005"/>
+      <site name="base_leg6_site" pos="-0.38  0.30 0" size="0.005"/>
+
+      <body name="crank_axle_leg1" pos="0 -0.30 0.078">
+        <joint name="joint_crossbar_crank_leg1" type="hinge" axis="0 1 0"/>
+        <body name="bar_m_leg1" pos="0 0 0" euler="0 0.000000 0">
+          <geom name="bar_m_geom_leg1" type="cylinder" size="0.01 0.075" pos="0 0 0.075" material="col_2F4858"/>
+          <body name="bar_j_leg1" pos="0 0 0.15">
+            <joint name="joint_m_j_leg1" type="hinge" axis="0 1 0"/>
+            <geom name="bar_j_geom_leg1" type="cylinder" size="0.01 0.25" pos="0 0 0.25" material="col_2F4858"/>
+            <body name="bar_k_leg1" pos="0 0 0">
+              <joint name="joint_j_k_leg1" type="hinge" axis="0 1 0"/>
+              <geom name="bar_k_geom_leg1" type="cylinder" size="0.01 0.3095" pos="0 0 0.3095" material="col_2F4858"/>
+              <body name="bar_c_leg1" pos="0 0 0.619">
+                <joint name="joint_k_c_leg1" type="hinge" axis="0 1 0"/>
+                <geom name="bar_c_geom_leg1" type="cylinder" size="0.01 0.1965" pos="0 0 0.1965" material="col_2F4858"/>
+                <site name="bar_c_tip_leg1" pos="0 0 0.393" size="0.008"/>
+              </body>
+              <body name="bars_g_h_i_leg1" pos="0 0 0.619">
+                <joint name="joint_k_i_leg1" type="hinge" axis="0 1 0"/>
+                <geom name="ghi_g_leg1" type="cylinder" size="0.01 0.245" pos="0 0 0.245" material="col_2F4858"/>
+                <geom name="ghi_h_leg1" type="cylinder" size="0.01 0.1835" pos="0.1812 0 -0.0291" euler="0 1.73 0" material="col_2F4858"/>
+                <geom name="ghi_i_leg1" type="cylinder" size="0.01 0.3285" pos="0.1811 0 0.2159" euler="0 2.5576 0" material="col_2F4858"/>
+                <geom name="foot_leg1" type="sphere" size="0.02" pos="0 0 0.49" contype="1" conaffinity="1" rgba="1.0 0.3 0.1 1"/>
+                <site name="ghi_loopsite_leg1" pos="0.3624 0 -0.0582" size="0.008"/>
+              </body>
+            </body>
+            <body name="bars_b_d_e_leg1" pos="0 0 0.50">
+              <joint name="joint_j_e_leg1" type="hinge" axis="0 1 0"/>
+              <geom name="bde_b_leg1" type="cylinder" size="0.01 0.279" pos="0 0 0.279" material="col_2F4858"/>
+              <geom name="bde_d_leg1" type="cylinder" size="0.01 0.2005" pos="-0.1488 0 0.4236" euler="0 -2.3056 0" material="col_2F4858"/>
+              <geom name="bde_e_leg1" type="cylinder" size="0.01 0.2075" pos="-0.1489 0 0.1446" euler="0 -0.8 0" material="col_2F4858"/>
+              <site name="bde_loopsite_leg1" pos="-0.2978 0 0.2892" size="0.008"/>
+              <body name="bar_f_leg1" pos="0 0 0.558">
+                <joint name="joint_e_f_leg1" type="hinge" axis="0 1 0"/>
+                <geom name="bar_f_geom_leg1" type="cylinder" size="0.01 0.197" pos="0 0 0.197" material="col_2F4858"/>
+                <site name="bar_f_tip_leg1" pos="0 0 0.394" size="0.008"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+
+      <body name="crank_axle_leg2" pos="0 -0.18 0.078">
+        <joint name="joint_crossbar_crank_leg2" type="hinge" axis="0 1 0"/>
+        <body name="bar_m_leg2" pos="0 0 0" euler="0 0 0">
+          <geom name="bar_m_geom_leg2" type="cylinder" size="0.01 0.075" pos="0 0 0.075" material="col_2F4858"/>
+          <body name="bar_j_leg2" pos="0 0 0.15">
+            <joint name="joint_m_j_leg2" type="hinge" axis="0 1 0"/>
+            <geom name="bar_j_geom_leg2" type="cylinder" size="0.01 0.25" pos="0 0 0.25" material="col_2F4858"/>
+            <body name="bar_k_leg2" pos="0 0 0">
+              <joint name="joint_j_k_leg2" type="hinge" axis="0 1 0"/>
+              <geom name="bar_k_geom_leg2" type="cylinder" size="0.01 0.3095" pos="0 0 0.3095" material="col_2F4858"/>
+              <body name="bar_c_leg2" pos="0 0 0.619">
+                <joint name="joint_k_c_leg2" type="hinge" axis="0 1 0"/>
+                <geom name="bar_c_geom_leg2" type="cylinder" size="0.01 0.1965" pos="0 0 0.1965" material="col_2F4858"/>
+                <site name="bar_c_tip_leg2" pos="0 0 0.393" size="0.008"/>
+              </body>
+              <body name="bars_g_h_i_leg2" pos="0 0 0.619">
+                <joint name="joint_k_i_leg2" type="hinge" axis="0 1 0"/>
+                <geom name="ghi_g_leg2" type="cylinder" size="0.01 0.245" pos="0 0 0.245" material="col_2F4858"/>
+                <geom name="ghi_h_leg2" type="cylinder" size="0.01 0.1835" pos="0.1812 0 -0.0291" euler="0 1.73 0" material="col_2F4858"/>
+                <geom name="ghi_i_leg2" type="cylinder" size="0.01 0.3285" pos="0.1811 0 0.2159" euler="0 2.5576 0" material="col_2F4858"/>
+                <geom name="foot_leg2" type="sphere" size="0.02" pos="0 0 0.49" contype="1" conaffinity="1" rgba="1.0 0.3 0.1 1"/>
+                <site name="ghi_loopsite_leg2" pos="0.3624 0 -0.0582" size="0.008"/>
+              </body>
+            </body>
+            <body name="bars_b_d_e_leg2" pos="0 0 0.50">
+              <joint name="joint_j_e_leg2" type="hinge" axis="0 1 0"/>
+              <geom name="bde_b_leg2" type="cylinder" size="0.01 0.279" pos="0 0 0.279" material="col_2F4858"/>
+              <geom name="bde_d_leg2" type="cylinder" size="0.01 0.2005" pos="-0.1488 0 0.4236" euler="0 -2.3056 0" material="col_2F4858"/>
+              <geom name="bde_e_leg2" type="cylinder" size="0.01 0.2075" pos="-0.1489 0 0.1446" euler="0 -0.8 0" material="col_2F4858"/>
+              <site name="bde_loopsite_leg2" pos="-0.2978 0 0.2892" size="0.008"/>
+              <body name="bar_f_leg2" pos="0 0 0.558">
+                <joint name="joint_e_f_leg2" type="hinge" axis="0 1 0"/>
+                <geom name="bar_f_geom_leg2" type="cylinder" size="0.01 0.197" pos="0 0 0.197" material="col_2F4858"/>
+                <site name="bar_f_tip_leg2" pos="0 0 0.394" size="0.008"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+
+      <body name="crank_axle_leg3" pos="0 -0.06 0.078">
+        <joint name="joint_crossbar_crank_leg3" type="hinge" axis="0 1 0"/>
+        <body name="bar_m_leg3" pos="0 0 0" euler="0 0 0">
+          <geom name="bar_m_geom_leg3" type="cylinder" size="0.01 0.075" pos="0 0 0.075" material="col_2F4858"/>
+          <body name="bar_j_leg3" pos="0 0 0.15">
+            <joint name="joint_m_j_leg3" type="hinge" axis="0 1 0"/>
+            <geom name="bar_j_geom_leg3" type="cylinder" size="0.01 0.25" pos="0 0 0.25" material="col_2F4858"/>
+            <body name="bar_k_leg3" pos="0 0 0">
+              <joint name="joint_j_k_leg3" type="hinge" axis="0 1 0"/>
+              <geom name="bar_k_geom_leg3" type="cylinder" size="0.01 0.3095" pos="0 0 0.3095" material="col_2F4858"/>
+              <body name="bar_c_leg3" pos="0 0 0.619">
+                <joint name="joint_k_c_leg3" type="hinge" axis="0 1 0"/>
+                <geom name="bar_c_geom_leg3" type="cylinder" size="0.01 0.1965" pos="0 0 0.1965" material="col_2F4858"/>
+                <site name="bar_c_tip_leg3" pos="0 0 0.393" size="0.008"/>
+              </body>
+              <body name="bars_g_h_i_leg3" pos="0 0 0.619">
+                <joint name="joint_k_i_leg3" type="hinge" axis="0 1 0"/>
+                <geom name="ghi_g_leg3" type="cylinder" size="0.01 0.245" pos="0 0 0.245" material="col_2F4858"/>
+                <geom name="ghi_h_leg3" type="cylinder" size="0.01 0.1835" pos="0.1812 0 -0.0291" euler="0 1.73 0" material="col_2F4858"/>
+                <geom name="ghi_i_leg3" type="cylinder" size="0.01 0.3285" pos="0.1811 0 0.2159" euler="0 2.5576 0" material="col_2F4858"/>
+                <geom name="foot_leg3" type="sphere" size="0.02" pos="0 0 0.49" contype="1" conaffinity="1" rgba="1.0 0.3 0.1 1"/>
+                <site name="ghi_loopsite_leg3" pos="0.3624 0 -0.0582" size="0.008"/>
+              </body>
+            </body>
+            <body name="bars_b_d_e_leg3" pos="0 0 0.50">
+              <joint name="joint_j_e_leg3" type="hinge" axis="0 1 0"/>
+              <geom name="bde_b_leg3" type="cylinder" size="0.01 0.279" pos="0 0 0.279" material="col_2F4858"/>
+              <geom name="bde_d_leg3" type="cylinder" size="0.01 0.2005" pos="-0.1488 0 0.4236" euler="0 -2.3056 0" material="col_2F4858"/>
+              <geom name="bde_e_leg3" type="cylinder" size="0.01 0.2075" pos="-0.1489 0 0.1446" euler="0 -0.8 0" material="col_2F4858"/>
+              <site name="bde_loopsite_leg3" pos="-0.2978 0 0.2892" size="0.008"/>
+              <body name="bar_f_leg3" pos="0 0 0.558">
+                <joint name="joint_e_f_leg3" type="hinge" axis="0 1 0"/>
+                <geom name="bar_f_geom_leg3" type="cylinder" size="0.01 0.197" pos="0 0 0.197" material="col_2F4858"/>
+                <site name="bar_f_tip_leg3" pos="0 0 0.394" size="0.008"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+
+      <body name="crank_axle_leg4" pos="0 0.06 0.078">
+        <joint name="joint_crossbar_crank_leg4" type="hinge" axis="0 1 0"/>
+        <body name="bar_m_leg4" pos="0 0 0" euler="0 0 0">
+          <geom name="bar_m_geom_leg4" type="cylinder" size="0.01 0.075" pos="0 0 0.075" material="col_2F4858"/>
+          <body name="bar_j_leg4" pos="0 0 0.15">
+            <joint name="joint_m_j_leg4" type="hinge" axis="0 1 0"/>
+            <geom name="bar_j_geom_leg4" type="cylinder" size="0.01 0.25" pos="0 0 0.25" material="col_2F4858"/>
+            <body name="bar_k_leg4" pos="0 0 0">
+              <joint name="joint_j_k_leg4" type="hinge" axis="0 1 0"/>
+              <geom name="bar_k_geom_leg4" type="cylinder" size="0.01 0.3095" pos="0 0 0.3095" material="col_2F4858"/>
+              <body name="bar_c_leg4" pos="0 0 0.619">
+                <joint name="joint_k_c_leg4" type="hinge" axis="0 1 0"/>
+                <geom name="bar_c_geom_leg4" type="cylinder" size="0.01 0.1965" pos="0 0 0.1965" material="col_2F4858"/>
+                <site name="bar_c_tip_leg4" pos="0 0 0.393" size="0.008"/>
+              </body>
+              <body name="bars_g_h_i_leg4" pos="0 0 0.619">
+                <joint name="joint_k_i_leg4" type="hinge" axis="0 1 0"/>
+                <geom name="ghi_g_leg4" type="cylinder" size="0.01 0.245" pos="0 0 0.245" material="col_2F4858"/>
+                <geom name="ghi_h_leg4" type="cylinder" size="0.01 0.1835" pos="0.1812 0 -0.0291" euler="0 1.73 0" material="col_2F4858"/>
+                <geom name="ghi_i_leg4" type="cylinder" size="0.01 0.3285" pos="0.1811 0 0.2159" euler="0 2.5576 0" material="col_2F4858"/>
+                <geom name="foot_leg4" type="sphere" size="0.02" pos="0 0 0.49" contype="1" conaffinity="1" rgba="1.0 0.3 0.1 1"/>
+                <site name="ghi_loopsite_leg4" pos="0.3624 0 -0.0582" size="0.008"/>
+              </body>
+            </body>
+            <body name="bars_b_d_e_leg4" pos="0 0 0.50">
+              <joint name="joint_j_e_leg4" type="hinge" axis="0 1 0"/>
+              <geom name="bde_b_leg4" type="cylinder" size="0.01 0.279" pos="0 0 0.279" material="col_2F4858"/>
+              <geom name="bde_d_leg4" type="cylinder" size="0.01 0.2005" pos="-0.1488 0 0.4236" euler="0 -2.3056 0" material="col_2F4858"/>
+              <geom name="bde_e_leg4" type="cylinder" size="0.01 0.2075" pos="-0.1489 0 0.1446" euler="0 -0.8 0" material="col_2F4858"/>
+              <site name="bde_loopsite_leg4" pos="-0.2978 0 0.2892" size="0.008"/>
+              <body name="bar_f_leg4" pos="0 0 0.558">
+                <joint name="joint_e_f_leg4" type="hinge" axis="0 1 0"/>
+                <geom name="bar_f_geom_leg4" type="cylinder" size="0.01 0.197" pos="0 0 0.197" material="col_2F4858"/>
+                <site name="bar_f_tip_leg4" pos="0 0 0.394" size="0.008"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+
+      <body name="crank_axle_leg5" pos="0 0.18 0.078">
+        <joint name="joint_crossbar_crank_leg5" type="hinge" axis="0 1 0"/>
+        <body name="bar_m_leg5" pos="0 0 0" euler="0 0 0">
+          <geom name="bar_m_geom_leg5" type="cylinder" size="0.01 0.075" pos="0 0 0.075" material="col_2F4858"/>
+          <body name="bar_j_leg5" pos="0 0 0.15">
+            <joint name="joint_m_j_leg5" type="hinge" axis="0 1 0"/>
+            <geom name="bar_j_geom_leg5" type="cylinder" size="0.01 0.25" pos="0 0 0.25" material="col_2F4858"/>
+            <body name="bar_k_leg5" pos="0 0 0">
+              <joint name="joint_j_k_leg5" type="hinge" axis="0 1 0"/>
+              <geom name="bar_k_geom_leg5" type="cylinder" size="0.01 0.3095" pos="0 0 0.3095" material="col_2F4858"/>
+              <body name="bar_c_leg5" pos="0 0 0.619">
+                <joint name="joint_k_c_leg5" type="hinge" axis="0 1 0"/>
+                <geom name="bar_c_geom_leg5" type="cylinder" size="0.01 0.1965" pos="0 0 0.1965" material="col_2F4858"/>
+                <site name="bar_c_tip_leg5" pos="0 0 0.393" size="0.008"/>
+              </body>
+              <body name="bars_g_h_i_leg5" pos="0 0 0.619">
+                <joint name="joint_k_i_leg5" type="hinge" axis="0 1 0"/>
+                <geom name="ghi_g_leg5" type="cylinder" size="0.01 0.245" pos="0 0 0.245" material="col_2F4858"/>
+                <geom name="ghi_h_leg5" type="cylinder" size="0.01 0.1835" pos="0.1812 0 -0.0291" euler="0 1.73 0" material="col_2F4858"/>
+                <geom name="ghi_i_leg5" type="cylinder" size="0.01 0.3285" pos="0.1811 0 0.2159" euler="0 2.5576 0" material="col_2F4858"/>
+                <geom name="foot_leg5" type="sphere" size="0.02" pos="0 0 0.49" contype="1" conaffinity="1" rgba="1.0 0.3 0.1 1"/>
+                <site name="ghi_loopsite_leg5" pos="0.3624 0 -0.0582" size="0.008"/>
+              </body>
+            </body>
+            <body name="bars_b_d_e_leg5" pos="0 0 0.50">
+              <joint name="joint_j_e_leg5" type="hinge" axis="0 1 0"/>
+              <geom name="bde_b_leg5" type="cylinder" size="0.01 0.279" pos="0 0 0.279" material="col_2F4858"/>
+              <geom name="bde_d_leg5" type="cylinder" size="0.01 0.2005" pos="-0.1488 0 0.4236" euler="0 -2.3056 0" material="col_2F4858"/>
+              <geom name="bde_e_leg5" type="cylinder" size="0.01 0.2075" pos="-0.1489 0 0.1446" euler="0 -0.8 0" material="col_2F4858"/>
+              <site name="bde_loopsite_leg5" pos="-0.2978 0 0.2892" size="0.008"/>
+              <body name="bar_f_leg5" pos="0 0 0.558">
+                <joint name="joint_e_f_leg5" type="hinge" axis="0 1 0"/>
+                <geom name="bar_f_geom_leg5" type="cylinder" size="0.01 0.197" pos="0 0 0.197" material="col_2F4858"/>
+                <site name="bar_f_tip_leg5" pos="0 0 0.394" size="0.008"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+
+      <body name="crank_axle_leg6" pos="0 0.30 0.078">
+        <joint name="joint_crossbar_crank_leg6" type="hinge" axis="0 1 0"/>
+        <body name="bar_m_leg6" pos="0 0 0" euler="0 0 0">
+          <geom name="bar_m_geom_leg6" type="cylinder" size="0.01 0.075" pos="0 0 0.075" material="col_2F4858"/>
+          <body name="bar_j_leg6" pos="0 0 0.15">
+            <joint name="joint_m_j_leg6" type="hinge" axis="0 1 0"/>
+            <geom name="bar_j_geom_leg6" type="cylinder" size="0.01 0.25" pos="0 0 0.25" material="col_2F4858"/>
+            <body name="bar_k_leg6" pos="0 0 0">
+              <joint name="joint_j_k_leg6" type="hinge" axis="0 1 0"/>
+              <geom name="bar_k_geom_leg6" type="cylinder" size="0.01 0.3095" pos="0 0 0.3095" material="col_2F4858"/>
+              <body name="bar_c_leg6" pos="0 0 0.619">
+                <joint name="joint_k_c_leg6" type="hinge" axis="0 1 0"/>
+                <geom name="bar_c_geom_leg6" type="cylinder" size="0.01 0.1965" pos="0 0 0.1965" material="col_2F4858"/>
+                <site name="bar_c_tip_leg6" pos="0 0 0.393" size="0.008"/>
+              </body>
+              <body name="bars_g_h_i_leg6" pos="0 0 0.619">
+                <joint name="joint_k_i_leg6" type="hinge" axis="0 1 0"/>
+                <geom name="ghi_g_leg6" type="cylinder" size="0.01 0.245" pos="0 0 0.245" material="col_2F4858"/>
+                <geom name="ghi_h_leg6" type="cylinder" size="0.01 0.1835" pos="0.1812 0 -0.0291" euler="0 1.73 0" material="col_2F4858"/>
+                <geom name="ghi_i_leg6" type="cylinder" size="0.01 0.3285" pos="0.1811 0 0.2159" euler="0 2.5576 0" material="col_2F4858"/>
+                <geom name="foot_leg6" type="sphere" size="0.02" pos="0 0 0.49" contype="1" conaffinity="1" rgba="1.0 0.3 0.1 1"/>
+                <site name="ghi_loopsite_leg6" pos="0.3624 0 -0.0582" size="0.008"/>
+              </body>
+            </body>
+            <body name="bars_b_d_e_leg6" pos="0 0 0.50">
+              <joint name="joint_j_e_leg6" type="hinge" axis="0 1 0"/>
+              <geom name="bde_b_leg6" type="cylinder" size="0.01 0.279" pos="0 0 0.279" material="col_2F4858"/>
+              <geom name="bde_d_leg6" type="cylinder" size="0.01 0.2005" pos="-0.1488 0 0.4236" euler="0 -2.3056 0" material="col_2F4858"/>
+              <geom name="bde_e_leg6" type="cylinder" size="0.01 0.2075" pos="-0.1489 0 0.1446" euler="0 -0.8 0" material="col_2F4858"/>
+              <site name="bde_loopsite_leg6" pos="-0.2978 0 0.2892" size="0.008"/>
+              <body name="bar_f_leg6" pos="0 0 0.558">
+                <joint name="joint_e_f_leg6" type="hinge" axis="0 1 0"/>
+                <geom name="bar_f_geom_leg6" type="cylinder" size="0.01 0.197" pos="0 0 0.197" material="col_2F4858"/>
+                <site name="bar_f_tip_leg6" pos="0 0 0.394" size="0.008"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+
+    </body>
+
+    <geom name="ground" type="plane" size="5 5 0.1" pos="0 0 0" rgba="0.75 0.75 0.75 1" contype="1" conaffinity="1"/>
+  </worldbody>
+
+  <actuator>
+    <velocity name="crank_motor_leg1" joint="joint_crossbar_crank_leg1" gear="1" kv="200" ctrllimited="true" ctrlrange="-20 20"/>
+    <velocity name="crank_motor_leg2" joint="joint_crossbar_crank_leg2" gear="1" kv="200" ctrllimited="true" ctrlrange="-20 20"/>
+    <velocity name="crank_motor_leg3" joint="joint_crossbar_crank_leg3" gear="1" kv="200" ctrllimited="true" ctrlrange="-20 20"/>
+    <velocity name="crank_motor_leg4" joint="joint_crossbar_crank_leg4" gear="1" kv="200" ctrllimited="true" ctrlrange="-20 20"/>
+    <velocity name="crank_motor_leg5" joint="joint_crossbar_crank_leg5" gear="1" kv="200" ctrllimited="true" ctrlrange="-20 20"/>
+    <velocity name="crank_motor_leg6" joint="joint_crossbar_crank_leg6" gear="1" kv="200" ctrllimited="true" ctrlrange="-20 20"/>
+  </actuator>
+
+  <equality>
+    <connect name="loop_f_g_leg1" site1="bar_f_tip_leg1" site2="ghi_loopsite_leg1" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_b_c_leg1" site1="bde_loopsite_leg1" site2="bar_c_tip_leg1" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_a_c_leg1" site1="base_leg1_site" site2="bar_c_tip_leg1" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+
+    <connect name="loop_f_g_leg2" site1="bar_f_tip_leg2" site2="ghi_loopsite_leg2" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_b_c_leg2" site1="bde_loopsite_leg2" site2="bar_c_tip_leg2" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_a_c_leg2" site1="base_leg2_site" site2="bar_c_tip_leg2" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+
+    <connect name="loop_f_g_leg3" site1="bar_f_tip_leg3" site2="ghi_loopsite_leg3" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_b_c_leg3" site1="bde_loopsite_leg3" site2="bar_c_tip_leg3" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_a_c_leg3" site1="base_leg3_site" site2="bar_c_tip_leg3" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+
+    <connect name="loop_f_g_leg4" site1="bar_f_tip_leg4" site2="ghi_loopsite_leg4" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_b_c_leg4" site1="bde_loopsite_leg4" site2="bar_c_tip_leg4" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_a_c_leg4" site1="base_leg4_site" site2="bar_c_tip_leg4" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+
+    <connect name="loop_f_g_leg5" site1="bar_f_tip_leg5" site2="ghi_loopsite_leg5" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_b_c_leg5" site1="bde_loopsite_leg5" site2="bar_c_tip_leg5" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_a_c_leg5" site1="base_leg5_site" site2="bar_c_tip_leg5" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+
+    <connect name="loop_f_g_leg6" site1="bar_f_tip_leg6" site2="ghi_loopsite_leg6" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_b_c_leg6" site1="bde_loopsite_leg6" site2="bar_c_tip_leg6" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+    <connect name="loop_a_c_leg6" site1="base_leg6_site" site2="bar_c_tip_leg6" solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+  </equality>
+
+  <keyframe>
+    <key name="init"
+         qpos="
+0.000000 -1.207374 -1.588355 2.347982 -0.620345 -1.346172 -1.127636
+0.000000 -1.207374 -1.588355 2.347982 -0.620345 -1.346172 -1.127636
+0.000000 -1.207374 -1.588355 2.347982 -0.620345 -1.346172 -1.127636
+0.000000 -1.207374 -1.588355 2.347982 -0.620345 -1.346172 -1.127636
+0.000000 -1.207374 -1.588355 2.347982 -0.620345 -1.346172 -1.127636
+0.000000 -1.207374 -1.588355 2.347982 -0.620345 -1.346172 -1.127636
+"/>
+  </keyframe>
+
+</mujoco>

@@ -1,0 +1,326 @@
+<mujoco model="Strandbeest_4Legs">
+
+  <compiler angle="radian" inertiafromgeom="true" autolimits="true" />
+
+  <option gravity="0 0 -9.81" timestep="0.0005" integrator="implicitfast" iterations="800" solver="Newton" tolerance="1e-12" noslip_iterations="10" noslip_tolerance="1e-10" />
+
+  <visual>
+    <rgba haze="0.15 0.25 0.35 1" />
+  </visual>
+
+  <default>
+    <joint damping="0.5" armature="0.005" />
+    <geom contype="0" conaffinity="0" friction="0.8 0.1 0.1" rgba="0.5 0.5 0.5 1" density="500" />
+
+  </default>
+
+  <asset>
+    <!-- existing materials -->
+    <material name="frame" rgba="0.184 0.282 0.345 1" />
+    <material name="crank" rgba="1.0 0.639 0.098 1" />
+    <material name="foot_mat" rgba="0.9 0.2 0.1 1" />
+    <material name="pair04" rgba="0.20 0.75 0.30 1" />
+    <material name="pair05" rgba="0.20 0.60 0.95 1" />
+    <material name="foot_pair04" rgba="0.35 0.95 0.45 1" />
+    <material name="foot_pair05" rgba="0.35 0.75 1.00 1" />
+
+    <!-- NEW: sky and ground textures -->
+    <texture name="skybox" type="skybox" builtin="gradient"
+             rgb1="0.35 0.55 0.75" rgb2="0.05 0.08 0.15"
+             width="512" height="3072" />
+
+    <texture name="grid_tex" type="2d" builtin="checker"
+             rgb1="0.25 0.26 0.28" rgb2="0.35 0.36 0.40"
+             width="512" height="512" />
+    <material name="grid_mat" texture="grid_tex"
+              texrepeat="40 10" texuniform="true" reflectance="0.15" />
+</asset>
+
+  <worldbody>
+    <!-- add these inside <worldbody>, OUTSIDE the crossbar body -->
+<body name="markers" pos="0 0 0">
+    <geom type="cylinder" size="0.03 0.2" pos="-3 -0.8 0.5" rgba="0.9 0.3 0.2 1" />
+    <geom type="cylinder" size="0.03 0.2" pos="-2 -0.8 0.5" rgba="0.95 0.6 0.2 1" />
+    <geom type="cylinder" size="0.03 0.2" pos="-1 -0.8 0.5" rgba="0.95 0.9 0.2 1" />
+    <geom type="cylinder" size="0.03 0.2" pos=" 0 -0.8 0.5" rgba="0.3 0.9 0.3 1" />
+    <geom type="cylinder" size="0.03 0.2" pos=" 1 -0.8 0.5" rgba="0.3 0.7 0.95 1" />
+    <geom type="cylinder" size="0.03 0.2" pos=" 2 -0.8 0.5" rgba="0.5 0.4 0.95 1" />
+    <geom type="cylinder" size="0.03 0.2" pos=" 3 -0.8 0.5" rgba="0.9 0.3 0.8 1" />
+    <geom type="cylinder" size="0.03 0.2" pos=" 4 -0.8 0.5" rgba="0.9 0.3 0.2 1" />
+    <geom type="cylinder" size="0.03 0.2" pos=" 5 -0.8 0.5" rgba="0.95 0.6 0.2 1" />
+    <geom type="cylinder" size="0.03 0.2" pos=" 6 -0.8 0.5" rgba="0.95 0.9 0.2 1" />
+    <geom type="cylinder" size="0.03 0.2" pos=" 7 -0.8 0.5" rgba="0.3 0.9 0.3 1" />
+    <geom type="cylinder" size="0.03 0.2" pos=" 8 -0.8 0.5" rgba="0.3 0.7 0.95 1" />
+</body>
+    <body name="crossbar" pos="0 0 0.9">
+      <joint name="root_slide_x" type="slide" axis="1 0 0" damping="2.0" />
+      <geom name="crossbar_geom" type="cylinder" size="0.012 0.14" pos="0 0.10 0" euler="1.5708 0 0" material="crank" />
+
+
+      <site name="base_p04_l_site" pos="-0.38 0.04000 0" size="0.005" />
+
+      <body name="crank_axle_p04_l" pos="0 0.04000 0.078">
+        <joint name="joint_crossbar_crank_p04_l" type="hinge" axis="0 1 0" />
+
+        <body name="bar_m_p04_l" pos="0 0 0" euler="0 0 0">
+          <geom name="bar_m_geom_p04_l" type="cylinder" size="0.008 0.075" pos="0 0 0.075" material="pair04" />
+
+          <body name="bar_j_p04_l" pos="0 0 0.15">
+            <joint name="joint_m_j_p04_l" type="hinge" axis="0 1 0" />
+            <geom name="bar_j_geom_p04_l" type="cylinder" size="0.008 0.25" pos="0 0 0.25" material="pair04" />
+
+            <body name="bar_k_p04_l" pos="0 0 0">
+              <joint name="joint_j_k_p04_l" type="hinge" axis="0 1 0" />
+              <geom name="bar_k_geom_p04_l" type="cylinder" size="0.008 0.3095" pos="0 0 0.3095" material="pair04" />
+
+              <body name="bar_c_p04_l" pos="0 0 0.619">
+                <joint name="joint_k_c_p04_l" type="hinge" axis="0 1 0" />
+                <geom name="bar_c_geom_p04_l" type="cylinder" size="0.008 0.1965" pos="0 0 0.1965" material="pair04" />
+                <site name="bar_c_tip_p04_l" pos="0 0 0.393" size="0.01" />
+              </body>
+
+              <body name="bars_g_h_i_p04_l" pos="0 0 0.619">
+                <joint name="joint_k_i_p04_l" type="hinge" axis="0 1 0" />
+                <geom name="ghi_g_p04_l" type="cylinder" size="0.008 0.245" pos="0 0 0.245" material="pair04" />
+                <geom name="ghi_h_p04_l" type="cylinder" size="0.008 0.1835" pos="0.1812 0 -0.0291" euler="0 1.73 0" material="pair04" />
+                <geom name="ghi_i_p04_l" type="cylinder" size="0.008 0.3285" pos="0.1811 0 0.2159" euler="0 2.5576 0" material="pair04" />
+                <geom name="foot_p04_l" type="sphere" size="0.022" pos="0 0 0.49" contype="1" conaffinity="1" material="foot_pair04" />
+                <site name="ghi_loopsite_p04_l" pos="0.3624 0 -0.0582" size="0.01" />
+              </body>
+            </body>
+
+            <body name="bars_b_d_e_p04_l" pos="0 0 0.50">
+              <joint name="joint_j_e_p04_l" type="hinge" axis="0 1 0" />
+              <geom name="bde_b_p04_l" type="cylinder" size="0.008 0.279" pos="0 0 0.279" material="pair04" />
+              <geom name="bde_d_p04_l" type="cylinder" size="0.008 0.2005" pos="-0.1488 0 0.4236" euler="0 -2.3056 0" material="pair04" />
+              <geom name="bde_e_p04_l" type="cylinder" size="0.008 0.2075" pos="-0.1489 0 0.1446" euler="0 -0.8 0" material="pair04" />
+              <site name="bde_loopsite_p04_l" pos="-0.2978 0 0.2892" size="0.01" />
+
+              <body name="bar_f_p04_l" pos="0 0 0.558">
+                <joint name="joint_e_f_p04_l" type="hinge" axis="0 1 0" />
+                <geom name="bar_f_geom_p04_l" type="cylinder" size="0.008 0.197" pos="0 0 0.197" material="pair04" />
+                <site name="bar_f_tip_p04_l" pos="0 0 0.394" size="0.01" />
+              </body>
+            </body>
+
+          </body>
+        </body>
+      </body>
+
+      <site name="base_p04_r_site" pos="0.38 0.04000 0" size="0.005" />
+
+      <body name="crank_axle_p04_r" pos="0 0.04000 0.078">
+        <joint name="joint_crossbar_crank_p04_r" type="hinge" axis="0 1 0" />
+
+        <body name="bar_m_p04_r" pos="0 0 0" euler="0 0 0">
+          <geom name="bar_m_geom_p04_r" type="cylinder" size="0.008 0.075" pos="0 0 0.075" material="pair04" />
+
+          <body name="bar_j_p04_r" pos="0 0 0.15">
+            <joint name="joint_m_j_p04_r" type="hinge" axis="0 1 0" />
+            <geom name="bar_j_geom_p04_r" type="cylinder" size="0.008 0.25" pos="0 0 0.25" material="pair04" />
+
+            <body name="bar_k_p04_r" pos="0 0 0">
+              <joint name="joint_j_k_p04_r" type="hinge" axis="0 1 0" />
+              <geom name="bar_k_geom_p04_r" type="cylinder" size="0.008 0.3095" pos="0 0 0.3095" material="pair04" />
+
+              <body name="bar_c_p04_r" pos="0 0 0.619">
+                <joint name="joint_k_c_p04_r" type="hinge" axis="0 1 0" />
+                <geom name="bar_c_geom_p04_r" type="cylinder" size="0.008 0.1965" pos="0 0 0.1965" material="pair04" />
+                <site name="bar_c_tip_p04_r" pos="0 0 0.393" size="0.01" />
+              </body>
+
+              <body name="bars_g_h_i_p04_r" pos="0 0 0.619">
+                <joint name="joint_k_i_p04_r" type="hinge" axis="0 1 0" />
+                <geom name="ghi_g_p04_r" type="cylinder" size="0.008 0.245" pos="0 0 0.245" material="pair04" />
+                <geom name="ghi_h_p04_r" type="cylinder" size="0.008 0.1835" pos="-0.1812 0 -0.0291" euler="0 -1.73 0" material="pair04" />
+                <geom name="ghi_i_p04_r" type="cylinder" size="0.008 0.3285" pos="-0.1811 0 0.2159" euler="0 -2.5576 0" material="pair04" />
+                <geom name="foot_p04_r" type="sphere" size="0.022" pos="0 0 0.49" contype="1" conaffinity="1" material="foot_pair04" />
+                <site name="ghi_loopsite_p04_r" pos="-0.3624 0 -0.0582" size="0.01" />
+              </body>
+            </body>
+
+            <body name="bars_b_d_e_p04_r" pos="0 0 0.5">
+              <joint name="joint_j_e_p04_r" type="hinge" axis="0 1 0" />
+              <geom name="bde_b_p04_r" type="cylinder" size="0.008 0.279" pos="0 0 0.279" material="pair04" />
+              <geom name="bde_d_p04_r" type="cylinder" size="0.008 0.2005" pos="0.1488 0 0.4236" euler="0 2.3056 0" material="pair04" />
+              <geom name="bde_e_p04_r" type="cylinder" size="0.008 0.2075" pos="0.1489 0 0.1446" euler="0 0.8 0" material="pair04" />
+              <site name="bde_loopsite_p04_r" pos="0.2978 0 0.2892" size="0.01" />
+
+              <body name="bar_f_p04_r" pos="0 0 0.558">
+                <joint name="joint_e_f_p04_r" type="hinge" axis="0 1 0" />
+                <geom name="bar_f_geom_p04_r" type="cylinder" size="0.008 0.197" pos="0 0 0.197" material="pair04" />
+                <site name="bar_f_tip_p04_r" pos="0 0 0.394" size="0.01" />
+              </body>
+            </body>
+
+          </body>
+        </body>
+      </body>
+
+      <site name="base_p05_l_site" pos="-0.38 0.16000 0" size="0.005" />
+
+      <body name="crank_axle_p05_l" pos="0 0.16000 0.078">
+        <joint name="joint_crossbar_crank_p05_l" type="hinge" axis="0 1 0" />
+
+        <body name="bar_m_p05_l" pos="0 0 0" euler="0 0 0">
+          <geom name="bar_m_geom_p05_l" type="cylinder" size="0.008 0.075" pos="0 0 0.075" material="pair05" />
+
+          <body name="bar_j_p05_l" pos="0 0 0.15">
+            <joint name="joint_m_j_p05_l" type="hinge" axis="0 1 0" />
+            <geom name="bar_j_geom_p05_l" type="cylinder" size="0.008 0.25" pos="0 0 0.25" material="pair05" />
+
+            <body name="bar_k_p05_l" pos="0 0 0">
+              <joint name="joint_j_k_p05_l" type="hinge" axis="0 1 0" />
+              <geom name="bar_k_geom_p05_l" type="cylinder" size="0.008 0.3095" pos="0 0 0.3095" material="pair05" />
+
+              <body name="bar_c_p05_l" pos="0 0 0.619">
+                <joint name="joint_k_c_p05_l" type="hinge" axis="0 1 0" />
+                <geom name="bar_c_geom_p05_l" type="cylinder" size="0.008 0.1965" pos="0 0 0.1965" material="pair05" />
+                <site name="bar_c_tip_p05_l" pos="0 0 0.393" size="0.01" />
+              </body>
+
+              <body name="bars_g_h_i_p05_l" pos="0 0 0.619">
+                <joint name="joint_k_i_p05_l" type="hinge" axis="0 1 0" />
+                <geom name="ghi_g_p05_l" type="cylinder" size="0.008 0.245" pos="0 0 0.245" material="pair05" />
+                <geom name="ghi_h_p05_l" type="cylinder" size="0.008 0.1835" pos="0.1812 0 -0.0291" euler="0 1.73 0" material="pair05" />
+                <geom name="ghi_i_p05_l" type="cylinder" size="0.008 0.3285" pos="0.1811 0 0.2159" euler="0 2.5576 0" material="pair05" />
+                <geom name="foot_p05_l" type="sphere" size="0.022" pos="0 0 0.49" contype="1" conaffinity="1" material="foot_pair05" />
+                <site name="ghi_loopsite_p05_l" pos="0.3624 0 -0.0582" size="0.01" />
+              </body>
+            </body>
+
+            <body name="bars_b_d_e_p05_l" pos="0 0 0.50">
+              <joint name="joint_j_e_p05_l" type="hinge" axis="0 1 0" />
+              <geom name="bde_b_p05_l" type="cylinder" size="0.008 0.279" pos="0 0 0.279" material="pair05" />
+              <geom name="bde_d_p05_l" type="cylinder" size="0.008 0.2005" pos="-0.1488 0 0.4236" euler="0 -2.3056 0" material="pair05" />
+              <geom name="bde_e_p05_l" type="cylinder" size="0.008 0.2075" pos="-0.1489 0 0.1446" euler="0 -0.8 0" material="pair05" />
+              <site name="bde_loopsite_p05_l" pos="-0.2978 0 0.2892" size="0.01" />
+
+              <body name="bar_f_p05_l" pos="0 0 0.558">
+                <joint name="joint_e_f_p05_l" type="hinge" axis="0 1 0" />
+                <geom name="bar_f_geom_p05_l" type="cylinder" size="0.008 0.197" pos="0 0 0.197" material="pair05" />
+                <site name="bar_f_tip_p05_l" pos="0 0 0.394" size="0.01" />
+              </body>
+            </body>
+
+          </body>
+        </body>
+      </body>
+
+      <site name="base_p05_r_site" pos="0.38 0.16000 0" size="0.005" />
+
+      <body name="crank_axle_p05_r" pos="0 0.16000 0.078">
+        <joint name="joint_crossbar_crank_p05_r" type="hinge" axis="0 1 0" />
+
+        <body name="bar_m_p05_r" pos="0 0 0" euler="0 0 0">
+          <geom name="bar_m_geom_p05_r" type="cylinder" size="0.008 0.075" pos="0 0 0.075" material="pair05" />
+
+          <body name="bar_j_p05_r" pos="0 0 0.15">
+            <joint name="joint_m_j_p05_r" type="hinge" axis="0 1 0" />
+            <geom name="bar_j_geom_p05_r" type="cylinder" size="0.008 0.25" pos="0 0 0.25" material="pair05" />
+
+            <body name="bar_k_p05_r" pos="0 0 0">
+              <joint name="joint_j_k_p05_r" type="hinge" axis="0 1 0" />
+              <geom name="bar_k_geom_p05_r" type="cylinder" size="0.008 0.3095" pos="0 0 0.3095" material="pair05" />
+
+              <body name="bar_c_p05_r" pos="0 0 0.619">
+                <joint name="joint_k_c_p05_r" type="hinge" axis="0 1 0" />
+                <geom name="bar_c_geom_p05_r" type="cylinder" size="0.008 0.1965" pos="0 0 0.1965" material="pair05" />
+                <site name="bar_c_tip_p05_r" pos="0 0 0.393" size="0.01" />
+              </body>
+
+              <body name="bars_g_h_i_p05_r" pos="0 0 0.619">
+                <joint name="joint_k_i_p05_r" type="hinge" axis="0 1 0" />
+                <geom name="ghi_g_p05_r" type="cylinder" size="0.008 0.245" pos="0 0 0.245" material="pair05" />
+                <geom name="ghi_h_p05_r" type="cylinder" size="0.008 0.1835" pos="-0.1812 0 -0.0291" euler="0 -1.73 0" material="pair05" />
+                <geom name="ghi_i_p05_r" type="cylinder" size="0.008 0.3285" pos="-0.1811 0 0.2159" euler="0 -2.5576 0" material="pair05" />
+                <geom name="foot_p05_r" type="sphere" size="0.022" pos="0 0 0.49" contype="1" conaffinity="1" material="foot_pair05" />
+                <site name="ghi_loopsite_p05_r" pos="-0.3624 0 -0.0582" size="0.01" />
+              </body>
+            </body>
+
+            <body name="bars_b_d_e_p05_r" pos="0 0 0.5">
+              <joint name="joint_j_e_p05_r" type="hinge" axis="0 1 0" />
+              <geom name="bde_b_p05_r" type="cylinder" size="0.008 0.279" pos="0 0 0.279" material="pair05" />
+              <geom name="bde_d_p05_r" type="cylinder" size="0.008 0.2005" pos="0.1488 0 0.4236" euler="0 2.3056 0" material="pair05" />
+              <geom name="bde_e_p05_r" type="cylinder" size="0.008 0.2075" pos="0.1489 0 0.1446" euler="0 0.8 0" material="pair05" />
+              <site name="bde_loopsite_p05_r" pos="0.2978 0 0.2892" size="0.01" />
+
+              <body name="bar_f_p05_r" pos="0 0 0.558">
+                <joint name="joint_e_f_p05_r" type="hinge" axis="0 1 0" />
+                <geom name="bar_f_geom_p05_r" type="cylinder" size="0.008 0.197" pos="0 0 0.197" material="pair05" />
+                <site name="bar_f_tip_p05_r" pos="0 0 0.394" size="0.01" />
+              </body>
+            </body>
+
+          </body>
+        </body>
+      </body>
+
+
+    </body>
+
+    <geom name="ground" type="plane" size="5 5 0.1" pos="0 0 0" rgba="0.72 0.72 0.72 1" contype="1" conaffinity="1" />
+  </worldbody>
+
+  <actuator>
+    <velocity name="crank_motor_p04_l" joint="joint_crossbar_crank_p04_l" gear="1" kv="500" ctrllimited="true" ctrlrange="-15 15" />
+    <velocity name="crank_motor_p04_r" joint="joint_crossbar_crank_p04_r" gear="1" kv="500" ctrllimited="true" ctrlrange="-15 15" />
+    <velocity name="crank_motor_p05_l" joint="joint_crossbar_crank_p05_l" gear="1" kv="500" ctrllimited="true" ctrlrange="-15 15" />
+    <velocity name="crank_motor_p05_r" joint="joint_crossbar_crank_p05_r" gear="1" kv="500" ctrllimited="true" ctrlrange="-15 15" />
+  </actuator>
+
+  <equality>
+  <!-- Lock crank phases: master = joint_crossbar_crank_p04_l -->
+<!-- polycoef = [c0, c1, 0, 0, 0] means joint1 = c0 + c1*joint2 -->
+
+<!-- p04_r = p04_l - π   (so when p04_l=π, p04_r=0) -->
+<joint name="phase_p04_r" joint1="joint_crossbar_crank_p04_r"
+       joint2="joint_crossbar_crank_p04_l"
+       polycoef="-3.141592654 1 0 0 0" />
+
+<!-- p05_l = p04_l + π/3   (so when p04_l=π, p05_l=4π/3) -->
+<joint name="phase_p05_l" joint1="joint_crossbar_crank_p05_l"
+       joint2="joint_crossbar_crank_p04_l"
+       polycoef="1.047197551 1 0 0 0" />
+
+<!-- p05_r = p04_l - 2π/3   (so when p04_l=π, p05_r=π/3) -->
+<joint name="phase_p05_r" joint1="joint_crossbar_crank_p05_r"
+       joint2="joint_crossbar_crank_p04_l"
+       polycoef="-2.094395102 1 0 0 0" />
+    <connect name="loop_f_g_p04_l" site1="bar_f_tip_p04_l" site2="ghi_loopsite_p04_l" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_b_c_p04_l" site1="bde_loopsite_p04_l" site2="bar_c_tip_p04_l" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_a_c_p04_l" site1="base_p04_l_site" site2="bar_c_tip_p04_l" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_f_g_p04_r" site1="bar_f_tip_p04_r" site2="ghi_loopsite_p04_r" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_b_c_p04_r" site1="bde_loopsite_p04_r" site2="bar_c_tip_p04_r" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_a_c_p04_r" site1="base_p04_r_site" site2="bar_c_tip_p04_r" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_f_g_p05_l" site1="bar_f_tip_p05_l" site2="ghi_loopsite_p05_l" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_b_c_p05_l" site1="bde_loopsite_p05_l" site2="bar_c_tip_p05_l" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_a_c_p05_l" site1="base_p05_l_site" site2="bar_c_tip_p05_l" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_f_g_p05_r" site1="bar_f_tip_p05_r" site2="ghi_loopsite_p05_r" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_b_c_p05_r" site1="bde_loopsite_p05_r" site2="bar_c_tip_p05_r" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+
+    <connect name="loop_a_c_p05_r" site1="base_p05_r_site" site2="bar_c_tip_p05_r" solimp="0.99 0.9999 0.0001 0.5 2" solref="0.002 1" />
+  </equality>
+
+<keyframe>
+  <key name="init" qpos="
+0.000000000
+3.141592654 -3.582539594 -1.602578219 2.494024554 -0.774610552 -1.487635166 -0.849320061
+0.000000000 13.773446140 1.588380296 -2.348113563 0.620536940 1.346324430 1.127332039
+4.188790205 -11.079141647 -1.321917819 2.923861724 -1.534656301 -1.819191839 0.114513913
+1.047197551 8.367236356 1.506217000 -2.120541209 0.414523199 1.111969167 1.535104926
+" />
+</keyframe>
+
+</mujoco>

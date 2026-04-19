@@ -1,0 +1,189 @@
+<!--
+  Strandbeest MuJoCo XML — Single Leg (pair01, leg1)
+  Stripped from the full 6-pair model.
+
+  Structure:
+    - crossbar  (single world-fixed base)
+    - crank_axle (revolute about Y, driven by velocity actuator)
+    - bar_m      (crank arm at phase=0, fixed to crank_axle)
+    - bar_j      (hinge off bar_m tip)
+      |- bar_k   (hinge off bar_j base)
+         |- bar_c        (hinge off bar_k tip)   → loop sites
+         |- bars_g_h_i   (hinge off bar_k tip)   → foot + loop site
+      |- bars_b_d_e (hinge off bar_j at z=0.50)
+         |- bar_f  (hinge off bars_b_d_e)        → loop site
+
+  Closed chains (equality connect constraints):
+    1. loop_f_g  : bar_f tip        ↔  bars_g_h_i loop point
+    2. loop_b_c  : bars_b_d_e point ↔  bar_c tip
+    3. loop_a_c  : base fixed site ↔  bar_c tip
+
+  All Jansen linkage bar lengths come from the original full model.
+-->
+
+<mujoco model="Strandbeest_SingleLeg">
+
+  <compiler angle="radian" inertiafromgeom="true" autolimits="true"/>
+
+    <option gravity="0 0 -9.81"
+      timestep="0.0005"
+      integrator="implicitfast"
+      iterations="800"
+      solver="Newton"
+      tolerance="1e-12"
+      noslip_iterations="10"
+      noslip_tolerance="1e-10"/>
+
+  <visual>
+    <rgba haze="0.15 0.25 0.35 1"/>
+  </visual>
+
+  <default>
+    <joint damping="0.5" armature="0.005"/>
+    <geom contype="0" conaffinity="0" friction="0.8 0.1 0.1" rgba="0.5 0.5 0.5 1" density="500"/>
+  </default>
+
+  <asset>
+    <material name="col_2F4858" rgba="0.184 0.282 0.345 1"/>
+    <material name="orange"    rgba="1.0 0.639 0.098 1"/>
+  </asset>
+
+  <worldbody>
+
+    <!-- =================== BASE: crossbar (single world-fixed body) =================== -->
+    <body name="crossbar" pos="0 0 0.9">
+      <!-- Fixed anchor used by loop_a_c. Equivalent to old bar_a_leg1_site. -->
+      <site name="base_leg1_site" pos="-0.38 0 0" size="0.005"/>
+
+      <!-- ── crank_axle: revolves about Y ── -->
+      <body name="crank_axle" pos="0 0 0.078">
+        <joint name="joint_crossbar_crank" type="hinge" axis="0 1 0" pos="0 0 0"/>
+
+        <!-- ── bar_m: crank arm, phase = 0 ── -->
+        <body name="bar_m" pos="0 0 0" euler="0 0 0">
+          <geom name="bar_m_geom" type="cylinder" size="0.01 0.075"
+                pos="0 0 0.075" material="col_2F4858"/>
+
+          <!-- ── bar_j: first link, hinged at bar_m tip ── -->
+          <body name="bar_j" pos="0 0 0.15">
+            <joint name="joint_m_j" type="hinge" axis="0 1 0" pos="0 0 0"/>
+            <geom name="bar_j_geom" type="cylinder" size="0.01 0.25"
+                  pos="0 0 0.25" material="col_2F4858"/>
+
+            <!-- bar_k hinged at bar_j base (pos 0 0 0 in bar_j frame) -->
+            <body name="bar_k" pos="0 0 0">
+              <joint name="joint_j_k" type="hinge" axis="0 1 0" pos="0 0 0"/>
+              <geom name="bar_k_geom" type="cylinder" size="0.01 0.3095"
+                    pos="0 0 0.3095" material="col_2F4858"/>
+
+              <!-- bar_c at tip of bar_k -->
+              <body name="bar_c" pos="0 0 0.619">
+                <joint name="joint_k_c" type="hinge" axis="0 1 0" pos="0 0 0"/>
+                <geom name="bar_c_geom" type="cylinder" size="0.01 0.1965"
+                      pos="0 0 0.1965" material="col_2F4858"/>
+                <!-- Site at the free tip of bar_c -->
+                <site name="bar_c_tip" pos="0 0 0.393" size="0.008"/>
+              </body>
+
+              <!-- bars_g_h_i: the foot-bearing compound link, also at bar_k tip -->
+              <body name="bars_g_h_i" pos="0 0 0.619">
+                <joint name="joint_k_i" type="hinge" axis="0 1 0" pos="0 0 0"/>
+                <!-- g: vertical strut -->
+                <geom name="ghi_g" type="cylinder" size="0.01 0.245"
+                      pos="0 0 0.245" material="col_2F4858"/>
+                <!-- h: diagonal brace -->
+                <geom name="ghi_h" type="cylinder" size="0.01 0.1835"
+                      pos="0.1812 0 -0.0291" euler="0 1.73 0" material="col_2F4858"/>
+                <!-- i: lower leg strut -->
+                <geom name="ghi_i" type="cylinder" size="0.01 0.3285"
+                      pos="0.1811 0 0.2159" euler="0 2.5576 0" material="col_2F4858"/>
+                <!-- Foot: collision sphere at the bottom -->
+                <geom name="foot" type="sphere" size="0.02"
+                      pos="0 0 0.49" contype="1" conaffinity="1"
+                      rgba="1.0 0.3 0.1 1"/>
+                <!-- Site for loop_f_g constraint -->
+                <site name="ghi_loopsite" pos="0.3624 0 -0.0582" size="0.008"/>
+              </body>
+            </body><!-- end bar_k -->
+
+            <!-- bars_b_d_e: triangular link attached partway up bar_j -->
+            <body name="bars_b_d_e" pos="0 0 0.50">
+              <joint name="joint_j_e" type="hinge" axis="0 1 0" pos="0 0 0"/>
+              <!-- b: upper strut -->
+              <geom name="bde_b" type="cylinder" size="0.01 0.279"
+                    pos="0 0 0.279" material="col_2F4858"/>
+              <!-- d: diagonal -->
+              <geom name="bde_d" type="cylinder" size="0.01 0.2005"
+                    pos="-0.1488 0 0.4236" euler="0 -2.3056 0" material="col_2F4858"/>
+              <!-- e: lower diagonal -->
+              <geom name="bde_e" type="cylinder" size="0.01 0.2075"
+                    pos="-0.1489 0 0.1446" euler="0 -0.8 0" material="col_2F4858"/>
+              <!-- Site for loop_b_c constraint -->
+              <site name="bde_loopsite" pos="-0.2978 0 0.2892" size="0.008"/>
+
+              <!-- bar_f: final link connecting to the foot assembly -->
+              <body name="bar_f" pos="0 0 0.558">
+                <joint name="joint_e_f" type="hinge" axis="0 1 0" pos="0 0 0"/>
+                <geom name="bar_f_geom" type="cylinder" size="0.01 0.197"
+                      pos="0 0 0.197" material="col_2F4858"/>
+                <!-- Site at tip of bar_f -->
+                <site name="bar_f_tip" pos="0 0 0.394" size="0.008"/>
+              </body>
+            </body><!-- end bars_b_d_e -->
+
+          </body><!-- end bar_j -->
+        </body><!-- end bar_m -->
+      </body><!-- end crank_axle -->
+    </body><!-- end crossbar -->
+
+    <!-- Ground plane -->
+    <geom name="ground" type="plane" size="5 5 0.1" pos="0 0 0"
+          rgba="0.75 0.75 0.75 1" contype="1" conaffinity="1"/>
+
+  </worldbody>
+
+  <!-- =================== ACTUATOR =================== -->
+  <actuator>
+    <!-- Velocity-controlled crank motor -->
+    <velocity name="crank_motor"
+              joint="joint_crossbar_crank"
+              gear="1" kv="200"
+              ctrllimited="true" ctrlrange="-20 20"/>
+  </actuator>
+
+  <!-- =================== EQUALITY CONSTRAINTS (closed-chain loops) =================== -->
+  <!--
+    Three point-to-point constraints close the Jansen linkage:
+
+      loop_f_g : bar_f tip       ↔  bars_g_h_i loop point  (0.3624, 0, -0.0582)
+      loop_b_c : bde loop point  ↔  bar_c tip               (0, 0, 0.393)
+      loop_a_c : base fixed pt   ↔  bar_c tip               (0, 0, 0.393)
+
+    solimp / solref tuned for stiff, stable constraint satisfaction.
+  -->
+  <equality>
+    <connect name="loop_f_g"
+             site1="bar_f_tip"    site2="ghi_loopsite"
+             solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+
+    <connect name="loop_b_c"
+             site1="bde_loopsite" site2="bar_c_tip"
+             solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+
+    <connect name="loop_a_c"
+             site1="base_leg1_site" site2="bar_c_tip"
+             solimp="0.99 0.999 0.0001 0.5 2" solref="0.005 1"/>
+  </equality>
+
+  <!--
+    Keyframe: taken from pair01-leg1 slice of the full model's "init" qpos.
+    DOF order: joint_crossbar_crank, joint_m_j, joint_j_k, joint_k_c,
+               joint_k_i, joint_j_e, joint_e_f
+    Values extracted from full model qpos indices 0..6.
+  -->
+  <keyframe>
+    <key name="init"
+         qpos="0.0  -1.207374  -1.588355  2.347982  -0.620345  -1.346172  -1.127636"/>
+  </keyframe>
+
+</mujoco>
